@@ -1,3 +1,4 @@
+!pip install groq
 import streamlit as st
 from groq import Groq
 
