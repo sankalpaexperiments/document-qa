@@ -1,5 +1,5 @@
 import streamlit as st
-from openai import OpenAI
+from groq import Groq
 
 # Show title and description.
 st.title("📄 Document question answering")
@@ -17,7 +17,7 @@ if not openai_api_key:
 else:
 
     # Create an OpenAI client.
-    client = OpenAI(api_key=openai_api_key)
+    client = Groq(api_key=openai_api_key )
 
     # Let the user upload a file via `st.file_uploader`.
     uploaded_file = st.file_uploader(
@@ -43,11 +43,10 @@ else:
         ]
 
         # Generate an answer using the OpenAI API.
-        stream = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages,
-            stream=True,
-        )
+        stream = client.chat.completions.create(model="llama3-70b-8192",
+                                            messages=messages,
+                                            max_tokens=100,
+                                            temperature=1.2)
 
         # Stream the response to the app using `st.write_stream`.
         st.write_stream(stream)
